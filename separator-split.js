@@ -1,22 +1,40 @@
 'use strict';
-/* Exercise 5: Split a string based upon a separator (similar to String.prototype.split). 
-
-The split() method splits a String object into an array of strings by separating the string into substrings.
-Syntax
-Edit
-
-str.split([separator[, limit]])
-
-Parameters
-
-separator:
-    Optional. Specifies the character(s) to use for separating the string. The separator is treated as a string or a regular expression. If separator is omitted, the array returned contains one element consisting of the entire string. If separator is an empty string, str is converted to an array of characters.
-limit:
-
-    Optional. Integer specifying a limit on the number of splits to be found. The split() method still splits on every match of separator, until the number of split items match the limit or the string falls short of separator.
-
-Return value:
-
-An array of strings split at each point where the separator occurs in the given string.
-
+/* Exercise 5: Split a string based upon a separator (similar to String.prototype.split).
 */
+
+let separator = (str, sep, arr, str2) => {
+  arr = arr || [];
+  str2 = st2 || '';
+
+  // when no separator is passed
+  if (!sep && sep !== '') return arr;
+  // when str is finished but str2 still has a string in it
+  if (!str && str2) {
+    arr.push(str2);
+    return arr;
+  }
+  // when no string is passed
+  if (!str) return arr;
+
+  // adds next char to str2 when its not equal to sep
+  if (str.substring(0, sep.length) !== sep) {
+    str2 = str2.concat(str[0]);
+  }
+  // when it matches sep or when sep is an empty string
+  if (str.substring(1, sep.length + 1) === sep || sep === '') {
+    arr.push(str2);
+    str2 = '';
+  }
+
+  // chooses next str to pass to recursion
+  // if str matches sep it will choose substring beyond the sep
+  if (str.substring(0, sep.length) === sep) {
+    str = str.substring (sep.length, str.length);
+  } else { // else it will do the next char to the end of string
+    str = str.substring(1, str.length);
+  }
+  // calls recursively
+  return separator(str, sep, arr, str2);
+}
+
+console.log(separator('this is a monkey', ' '));
